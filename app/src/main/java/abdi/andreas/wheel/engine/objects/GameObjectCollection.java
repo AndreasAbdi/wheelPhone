@@ -1,11 +1,9 @@
-package abdi.andreas.wheel.engine;
+package abdi.andreas.wheel.engine.objects;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
 import java.util.ArrayList;
-
-import abdi.andreas.wheel.engine.GameObject;
 
 public class GameObjectCollection<T extends GameObject> extends ArrayList<T> {
 
