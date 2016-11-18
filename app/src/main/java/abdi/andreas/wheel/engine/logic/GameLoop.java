@@ -6,8 +6,10 @@ import java.util.ArrayList;
 
 public class GameLoop implements Runnable {
 
-    private Thread gameThread = null;
+    private Thread gameThread;
     private volatile boolean running = false;
+    private long fps;
+    private long timeElapsedInFrame;
 
     private final ArrayList<Component> components;
 
@@ -33,9 +35,17 @@ public class GameLoop implements Runnable {
     @Override
     public void run() {
         while(running) {
+            long startTime = System.currentTimeMillis();
+
             for(Component component : components) {
-                component.update();
+                component.update(fps);
             }
+
+            timeElapsedInFrame = System.currentTimeMillis() - startTime;
+            if(timeElapsedInFrame >=1) {
+                fps = 1000/ timeElapsedInFrame;
+            }
+
         }
     }
 }

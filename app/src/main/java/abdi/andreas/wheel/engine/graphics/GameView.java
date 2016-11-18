@@ -5,6 +5,8 @@ import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.google.common.base.Optional;
+
 public class GameView extends SurfaceView {
     SurfaceHolder surfaceHolder;
     Canvas canvas;
@@ -14,12 +16,12 @@ public class GameView extends SurfaceView {
         surfaceHolder = getHolder();
     }
 
-    public Canvas drawTo() {
+    public Optional<Canvas> drawTo() {
         if(surfaceHolder.getSurface().isValid()) {
             canvas = surfaceHolder.lockCanvas();
-            return canvas;
+            return Optional.of(canvas);
         }
-        return null;
+        return Optional.absent();
     }
 
     public void unlock() {
