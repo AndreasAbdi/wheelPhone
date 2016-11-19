@@ -5,44 +5,89 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
+import abdi.andreas.wheel.engine.maths.Vector;
 import abdi.andreas.wheel.engine.objects.GameObject;
 
+import static abdi.andreas.wheel.engine.maths.WorldToScreenConverter.convertToScreenCoordinates;
+import static abdi.andreas.wheel.engine.maths.WorldToScreenConverter.getAngleInScreenCoordinates;
+
+
 public class Torpedo implements GameObject {
-    private float x;
-    private float y;
-    private float height;
-    private float width;
-    private float angle;
-    private float speed;
+    Vector screenCoordinates;
 
+    float angle;
+
+    float worldX;
+    float worldY;
+    Float worldAngle;
+
+    float height;
+    float width;
+
+    float speedX;
+    float speedY;
     private RectF rectangle;
+    boolean disabled;
 
-    public Torpedo(float x, float y, float width, float height, float angle, float speed) {
-        this.x = x;
-        this.y = y;
+    public Torpedo(float worldX, float worldY, float width, float height, float worldAngle, float speedX,float speedY) {
+        //TODO: change this to position class.
+        this.worldX = worldX;
+        this.worldY = worldY;
+        this.worldAngle = worldAngle;
+
         this.height = height;
         this.width = width;
-        this.angle = angle;
-        this.speed = speed;
+        //TODO: change this to vector class.
+        this.speedX = speedX;
+        this.speedY = speedY;
+
         generateRectangle();
+        disabled = false;
     }
 
     @Override
     public void draw(Canvas canvas, Paint paint) {
+        Vector worldCoords = new Vector(worldX,worldY);
+        Vector screenSize = new Vector(canvas.getWidth(), canvas.getHeight());
+        screenCoordinates = convertToScreenCoordinates(worldCoords, screenSize);
+        angle = getAngleInScreenCoordinates(worldCoords, screenSize);
+
+        canvas.save();
+        canvas.translate(screenCoordinates.x(), screenCoordinates.y());
+        canvas.rotate(angle);
         paint.setColor(Color.argb(255, 255, 0, 0));
+        generateRectangle();
         canvas.drawRect(rectangle, paint);
+        paint.setColor(Color.CYAN);
+        canvas.drawCircle(0,0,5,paint);
+        canvas.restore();
     }
 
     @Override
-    public void update(long fps) {
-        generateRectangle();
+    public void update(long deltaTime) {
+        this.worldX += deltaTime/1000.0 * speedX;
+        this.worldY += deltaTime/1000.0 * speedY;
+    }
+
+    public void collisionOccured(WheelCharacter wheelCharacter) {
+        this.disabled = true;
+    }
+
+    @Override
+    public boolean collidesWith(GameObject gameObject) {
+        return false;
+    }
+
+    @Override
+    public boolean disabled() {
+        return disabled;
     }
 
     private void generateRectangle() {
-        float left = x - width/2;
-        float right = x + width/2;
-        float top = y - height/2;
-        float bottom = y + height/2;
+        float left = -width/2;
+        float right = width/2;
+        float top = -height/2;
+        float bottom = height/2;
         rectangle = new RectF(left,top,right,bottom);
     }
 }

@@ -1,6 +1,7 @@
 package abdi.andreas.wheel.game.components;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 
 import com.google.common.base.Optional;
@@ -23,6 +24,7 @@ public class GraphicsComponentImpl implements GraphicsComponent {
     public void update(long deltaTime, long currentTime) {
         Optional<Canvas> canvas = gameView.drawTo();
         if(canvas.isPresent()) {
+            canvas.get().drawColor(Color.BLACK);
             Paint paint = new Paint();
             for(GameObjectCollection collection : gameModel.values()) {
                 collection.draw(canvas.get(), paint);

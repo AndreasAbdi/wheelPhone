@@ -13,21 +13,18 @@ public class MetaInfo implements GameObject {
 
     float x;
     float y;
+    WheelCharacter wheelCharacter;
 
-    int score;
-    int lives;
-
-    public MetaInfo(float x, float y, int score, int lives) {
+    public MetaInfo(float x, float y, WheelCharacter wheelCharacter) {
         this.x = x;
         this.y = y;
-        this.score = score;
-        this.lives = lives;
+        this.wheelCharacter = wheelCharacter;
     }
 
     @Override
     public void draw(Canvas canvas, Paint paint) {
-        String text = "Score: " + score + "\n" +
-                "Lives: " + lives;
+        String text = "Score: " + wheelCharacter.score + "\n" +
+                "Lives: " + wheelCharacter.lives;
         TextPaint textPaint = new TextPaint();
         textPaint.setColor(Color.BLUE);
         textPaint.setTextSize(50);
@@ -40,7 +37,17 @@ public class MetaInfo implements GameObject {
     }
 
     @Override
+    public boolean collidesWith(GameObject gameObject) {
+        return false;
+    }
+
+    @Override
     public void update(long fps) {
 
+    }
+
+    @Override
+    public boolean disabled() {
+        return false;
     }
 }

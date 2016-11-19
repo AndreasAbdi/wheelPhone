@@ -34,6 +34,16 @@ public class Ball implements GameObject {
         generateRectangle();
     }
 
+    @Override
+    public boolean disabled() {
+        return false;
+    }
+
+    @Override
+    public boolean collidesWith(GameObject gameObject) {
+        return false;
+    }
+
     private void generateRectangle() {
         float left = x - radius;
         float right = x + radius;
