@@ -10,14 +10,24 @@ import abdi.andreas.wheel.engine.objects.GameObject;
 public class Torpedo implements GameObject {
     private float x;
     private float y;
-    private float radius;
+    private float length;
+    private float width;
     private float angle;
+
     private RectF rectangle;
+
+    public Torpedo(float x, float y, float width, float length, float angle) {
+        this.x = x;
+        this.y = y;
+        this.length = length;
+        this.angle = angle;
+        generateRectangle();
+    }
 
     @Override
     public void draw(Canvas canvas, Paint paint) {
-        paint.setColor(Color.argb(255, 0, 0, 255));
-        canvas.drawOval(rectangle, paint);
+        paint.setColor(Color.argb(255, 255, 0, 0));
+        canvas.drawRect(rectangle, paint);
     }
 
     @Override
@@ -26,10 +36,10 @@ public class Torpedo implements GameObject {
     }
 
     private void generateRectangle() {
-        float left = x - radius;
-        float right = x + radius;
-        float top = y - radius;
-        float bottom = y + radius;
+        float left = x - length/2;
+        float right = x + length/2;
+        float top = y - length/2;
+        float bottom = y + length/2;
         rectangle = new RectF(left,top,right,bottom);
     }
 }

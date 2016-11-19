@@ -14,6 +14,13 @@ public class WheelCharacter implements GameObject {
     private float angle;
     private RectF rectangle;
 
+    public WheelCharacter(float x, float y, float radius, float angle) {
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.angle = angle;
+        generateRectangle();
+    }
 
     @Override
     public void draw(Canvas canvas, Paint paint) {

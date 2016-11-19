@@ -25,7 +25,7 @@ public class Ball implements GameObject {
 
     @Override
     public void draw(Canvas canvas, Paint paint) {
-        paint.setColor(Color.argb(255,0,0,255));
+        paint.setColor(Color.argb(255,0,255,0));
         canvas.drawOval(rectangle, paint);
     }
 

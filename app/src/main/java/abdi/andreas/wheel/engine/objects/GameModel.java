@@ -3,8 +3,8 @@ package abdi.andreas.wheel.engine.objects;
 import java.util.HashMap;
 
 public class GameModel extends HashMap<Integer, GameObjectCollection> {
-    private int height;
-    private int width;
+    public final int height;
+    public final int width;
 
     public GameModel(int width, int height) {
         super();
@@ -12,11 +12,11 @@ public class GameModel extends HashMap<Integer, GameObjectCollection> {
         this.width = width;
     }
 
-    public int getHeight() {
-        return this.height;
+    public <T extends GameObject> void put(T gameObject, int index) {
+
+        GameObjectCollection<T> collection = new GameObjectCollection<T>();
+        collection.add(gameObject);
+        put(index, collection);
     }
 
-    public int getWidth() {
-        return this.width;
-    }
 }
