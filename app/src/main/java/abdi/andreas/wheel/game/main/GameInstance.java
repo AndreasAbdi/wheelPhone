@@ -2,11 +2,10 @@ package abdi.andreas.wheel.game.main;
 
 import android.util.DisplayMetrics;
 
-import java.util.ArrayList;
-
 import abdi.andreas.wheel.engine.graphics.GameView;
-import abdi.andreas.wheel.engine.logic.Component;
 import abdi.andreas.wheel.engine.logic.GameLoop;
+import abdi.andreas.wheel.engine.logic.GraphicsComponent;
+import abdi.andreas.wheel.engine.logic.LogicComponent;
 import abdi.andreas.wheel.engine.objects.GameModel;
 
 public class GameInstance {
@@ -17,8 +16,9 @@ public class GameInstance {
         int screenY = metrics.heightPixels;
         int screenX = metrics.widthPixels;
         GameModel model = ModelBuilder.buildModel(screenX, screenY);
-        ArrayList<Component> components = ComponentBuilder.buildComponents(view, model);
-        gameLoop = new GameLoop(components);
+        GraphicsComponent graphicsComponent = ComponentBuilder.buildGraphicComponent(view, model);
+        LogicComponent logicComponent = ComponentBuilder.buildLogicComponent(model);
+        gameLoop = new GameLoop(graphicsComponent, logicComponent);
     }
 
     public void pause(){

@@ -2,19 +2,22 @@ package abdi.andreas.wheel.engine.logic;
 
 import android.util.Log;
 
-import java.util.ArrayList;
-
 public class GameLoop implements Runnable {
 
     private Thread gameThread;
     private volatile boolean running = false;
-    private long fps;
-    private long timeElapsedInFrame;
 
-    private final ArrayList<Component> components;
+    private final GraphicsComponent graphicsComponent;
+    private final LogicComponent logicComponent;
 
-    public GameLoop(ArrayList<Component> components) {
-        this.components = components;
+    long deltaTime = 10;
+    long simulationTime = 0;
+    long accumulator = 0;
+    long currentTime = System.currentTimeMillis();
+
+    public GameLoop(GraphicsComponent graphicsComponent, LogicComponent logicComponent) {
+        this.graphicsComponent = graphicsComponent;
+        this.logicComponent = logicComponent;
     }
 
     public void pause(){
@@ -35,17 +38,41 @@ public class GameLoop implements Runnable {
     @Override
     public void run() {
         while(running) {
-            long startTime = System.currentTimeMillis();
-
-            for(Component component : components) {
-                component.update(fps);
-            }
-
-            timeElapsedInFrame = System.currentTimeMillis() - startTime;
-            if(timeElapsedInFrame >=1) {
-                fps = 1000/ timeElapsedInFrame;
-            }
-
+            updateCurrentTimeAndAccumulator();
+            runSimulationSteps();
+            handleTemporalAlias();
+            drawToScreen();
         }
+    }
+
+    private void updateCurrentTimeAndAccumulator() {
+        long newTime = System.currentTimeMillis();
+        long frameTime = newTime - currentTime;
+        //TODO: update this with some numerical interval numerical analysis.
+        if(frameTime > 250) {
+            frameTime = 250;
+        }
+        currentTime = newTime;
+
+        accumulator += frameTime;
+    }
+
+    private void runSimulationSteps() {
+        while(accumulator >= deltaTime) {
+            logicComponent.update(deltaTime, simulationTime);
+            accumulator -= deltaTime;
+            simulationTime += deltaTime;
+        }
+
+    }
+
+    private void drawToScreen() {
+        graphicsComponent.update(deltaTime, simulationTime);
+    }
+
+    //TODO: switch to states to handle temporal alias.
+    //TODO: this probably needs
+    private void handleTemporalAlias() {
+
     }
 }

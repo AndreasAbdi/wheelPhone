@@ -6,21 +6,21 @@ import android.graphics.Paint;
 import com.google.common.base.Optional;
 
 import abdi.andreas.wheel.engine.graphics.GameView;
-import abdi.andreas.wheel.engine.logic.Component;
+import abdi.andreas.wheel.engine.logic.GraphicsComponent;
 import abdi.andreas.wheel.engine.objects.GameModel;
 import abdi.andreas.wheel.engine.objects.GameObjectCollection;
 
-public class GraphicsComponent implements Component {
+public class GraphicsComponentImpl implements GraphicsComponent {
     private final GameView gameView;
     private final GameModel gameModel;
 
-    public GraphicsComponent(GameView gameView, GameModel gameModel) {
+    public GraphicsComponentImpl(GameView gameView, GameModel gameModel) {
         this.gameView = gameView;
         this.gameModel = gameModel;
     }
 
     @Override
-    public void update(long fps) {
+    public void update(long deltaTime, long currentTime) {
         Optional<Canvas> canvas = gameView.drawTo();
         if(canvas.isPresent()) {
             Paint paint = new Paint();
