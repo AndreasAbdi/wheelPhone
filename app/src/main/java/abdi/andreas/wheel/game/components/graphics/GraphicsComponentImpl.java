@@ -1,4 +1,4 @@
-package abdi.andreas.wheel.game.components;
+package abdi.andreas.wheel.game.components.graphics;
 
 import android.graphics.Canvas;
 import android.graphics.Color;

@@ -7,15 +7,15 @@ import android.graphics.RectF;
 
 import abdi.andreas.wheel.engine.maths.Vector;
 import abdi.andreas.wheel.engine.objects.GameObject;
+import abdi.andreas.wheel.game.objects.wheelCharacter.WheelCharacter;
 
 import static abdi.andreas.wheel.engine.maths.WorldToScreenConverter.convertToScreenCoordinates;
-import static abdi.andreas.wheel.engine.maths.WorldToScreenConverter.getAngleInScreenCoordinates;
+import static abdi.andreas.wheel.engine.maths.WorldToScreenConverter.getClockwiseAngleInScreenCoordinates;
 
 
 public class Torpedo implements GameObject {
     Vector screenCoordinates;
-
-    float angle;
+    float angleInDegreesClockwise;
 
     float worldX;
     float worldY;
@@ -50,16 +50,16 @@ public class Torpedo implements GameObject {
         Vector worldCoords = new Vector(worldX,worldY);
         Vector screenSize = new Vector(canvas.getWidth(), canvas.getHeight());
         screenCoordinates = convertToScreenCoordinates(worldCoords, screenSize);
-        angle = getAngleInScreenCoordinates(worldCoords, screenSize);
+        angleInDegreesClockwise = getClockwiseAngleInScreenCoordinates(worldCoords, screenSize);
 
         canvas.save();
         canvas.translate(screenCoordinates.x(), screenCoordinates.y());
-        canvas.rotate(angle);
+        canvas.rotate(angleInDegreesClockwise);
         paint.setColor(Color.argb(255, 255, 0, 0));
         generateRectangle();
         canvas.drawRect(rectangle, paint);
         paint.setColor(Color.CYAN);
-        canvas.drawCircle(0,0,5,paint);
+        canvas.drawRect(new RectF(-width/2, height/2, -width/2+10, -height/2), paint);
         canvas.restore();
     }
 
@@ -83,6 +83,17 @@ public class Torpedo implements GameObject {
         return disabled;
     }
 
+    public Vector getScreenCoordinates() {
+        return this.screenCoordinates;
+    }
+
+    public float getWidth() {
+        return this.width;
+    }
+
+    public float getAngleInDegreesClockwise() {
+        return this.angleInDegreesClockwise;
+    }
     private void generateRectangle() {
         float left = -width/2;
         float right = width/2;

@@ -7,6 +7,7 @@ import abdi.andreas.wheel.engine.logic.GameLoop;
 import abdi.andreas.wheel.engine.logic.GraphicsComponent;
 import abdi.andreas.wheel.engine.logic.LogicComponent;
 import abdi.andreas.wheel.engine.objects.GameModel;
+import abdi.andreas.wheel.game.components.controls.ControlComponent;
 
 public class GameInstance {
     private GameLoop gameLoop;
@@ -18,6 +19,8 @@ public class GameInstance {
         GameModel model = ModelBuilder.buildModel(screenX, screenY);
         GraphicsComponent graphicsComponent = ComponentBuilder.buildGraphicComponent(view, model);
         LogicComponent logicComponent = ComponentBuilder.buildLogicComponent(model);
+        ControlComponent controlComponent = new ControlComponent(model, logicComponent);
+        controlComponent.attachControlsToView(view);
         gameLoop = new GameLoop(graphicsComponent, logicComponent);
     }
 

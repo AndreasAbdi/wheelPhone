@@ -2,11 +2,11 @@ package abdi.andreas.wheel.game.main;
 
 import abdi.andreas.wheel.engine.objects.GameModel;
 
-public class ModelBuilder {
+class ModelBuilder {
 
     private ModelBuilder() {}
 
-    public static GameModel buildModel(int width, int height) {
+    static GameModel buildModel(int width, int height) {
         return new GameModel(width, height);
     }
 

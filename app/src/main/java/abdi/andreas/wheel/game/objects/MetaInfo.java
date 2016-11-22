@@ -8,6 +8,7 @@ import android.text.StaticLayout;
 import android.text.TextPaint;
 
 import abdi.andreas.wheel.engine.objects.GameObject;
+import abdi.andreas.wheel.game.objects.wheelCharacter.WheelCharacter;
 
 public class MetaInfo implements GameObject {
 
@@ -23,8 +24,8 @@ public class MetaInfo implements GameObject {
 
     @Override
     public void draw(Canvas canvas, Paint paint) {
-        String text = "Score: " + wheelCharacter.score + "\n" +
-                "Lives: " + wheelCharacter.lives;
+        String text = "Score: " + wheelCharacter.getScore() + "\n" +
+                "Lives: " + wheelCharacter.getLives();
         TextPaint textPaint = new TextPaint();
         textPaint.setColor(Color.BLUE);
         textPaint.setTextSize(50);
