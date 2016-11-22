@@ -15,10 +15,12 @@ public class WheelCharacter implements GameObject {
     float startAngle;
     float radius;
     float speedInClockwise;
-    private RectF rectangle;
-    private final WheelCharacterCollisionHandler collisionHandler;
+
     int score;
     int lives;
+
+    private RectF rectangle;
+    private final WheelCharacterCollisionHandler collisionHandler;
 
     public WheelCharacter(Vector center, float radius, float startAngle, float sweepAngle, float speedInClockwise, int lives) {
         this.center = center;
@@ -48,13 +50,16 @@ public class WheelCharacter implements GameObject {
     }
 
     public boolean collidesWith(Torpedo torpedo) {
-
         return collisionHandler.collidesWith(torpedo);
     }
 
     public float getSpeed() {
         return this.speedInClockwise;
     }
+
+    public float getScore() { return this.score;}
+
+    public float getLives() { return this.lives;}
 
     public void updateSpeed(float speedInClockWise) {
         this.speedInClockwise = speedInClockWise;

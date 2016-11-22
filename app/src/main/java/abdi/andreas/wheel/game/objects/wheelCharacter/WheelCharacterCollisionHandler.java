@@ -18,7 +18,7 @@ public class WheelCharacterCollisionHandler {
         boolean collisionOccurs = distanceBetweenClosestPoints(torpedo) <= 0;
         boolean collisionOccursInSweepSpot = collisionOccurs && torpedoAngleWithinArcSweep(torpedo);
         if(collisionOccursInSweepSpot) {
-            wheelCharacter.score++;
+            wheelCharacter.score += 10;
             torpedo.collisionOccured(wheelCharacter);
         } else if (collisionOccurs) {
             wheelCharacter.lives--;
@@ -32,31 +32,33 @@ public class WheelCharacterCollisionHandler {
         return false;
     }
 
-    //all torpedos go to center, otherwise we have do line point distance.
+    //all torpedos go to center, otherwise we have to do line point distance.
     private double distanceBetweenClosestPoints(Torpedo torpedo) {
         //TODO: shift this class to world coords.
-        if(torpedo.screenCoordinates == null) {
+        if(torpedo.getScreenCoordinates() == null) {
             return Double.MAX_VALUE;
         }
 
         Vector2D position = new Vector2D(
-                torpedo.screenCoordinates.x(),
-                torpedo.screenCoordinates.y()
+                torpedo.getScreenCoordinates().x(),
+                torpedo.getScreenCoordinates().y()
         );
 
         Vector2D ourPosition = new Vector2D(wheelCharacter.center.x(),wheelCharacter.center.y());
         double distanceBetweenCenters = position.subtract(ourPosition).getNorm();
-        double effectiveCombinedLength = wheelCharacter.radius + torpedo.width/2;
+        double effectiveCombinedLength = wheelCharacter.radius + torpedo.getWidth()/2;
         return distanceBetweenCenters - effectiveCombinedLength;
     }
 
     private boolean torpedoAngleWithinArcSweep(Torpedo torpedo) {
-        float angleOfTorpedo = torpedo.angleInDegreesClockwise;
+        float angleOfTorpedo = torpedo.getAngleInDegreesClockwise();
         float minimumAngle = wheelCharacter.startAngle;
         float maximumAngle = wheelCharacter.startAngle + wheelCharacter.sweepAngle;
-        if((angleOfTorpedo >= minimumAngle) && (angleOfTorpedo <= maximumAngle)) {
-            return true;
+        if (maximumAngle > 360) {
+            boolean isBetweenMinimumAngleAnd360 = (angleOfTorpedo >= minimumAngle  && angleOfTorpedo <= 360);
+            boolean isBetween0AndMaximumMinus360 = (angleOfTorpedo >= 0 && angleOfTorpedo <= maximumAngle - 360);
+            return  isBetween0AndMaximumMinus360 || isBetweenMinimumAngleAnd360;
         }
-        return false;
+        return (angleOfTorpedo >= minimumAngle) && (angleOfTorpedo <= maximumAngle);
     }
 }
