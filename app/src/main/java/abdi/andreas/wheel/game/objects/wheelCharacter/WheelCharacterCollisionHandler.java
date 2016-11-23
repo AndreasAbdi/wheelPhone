@@ -6,10 +6,10 @@ import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import abdi.andreas.wheel.engine.objects.GameObject;
 import abdi.andreas.wheel.game.objects.Torpedo;
 
-public class WheelCharacterCollisionHandler {
+class WheelCharacterCollisionHandler {
     WheelCharacter wheelCharacter;
 
-    public WheelCharacterCollisionHandler(WheelCharacter wheelCharacter) {
+    WheelCharacterCollisionHandler(WheelCharacter wheelCharacter) {
         this.wheelCharacter = wheelCharacter;
     }
 

@@ -7,7 +7,9 @@ import abdi.andreas.wheel.engine.logic.GameLoop;
 import abdi.andreas.wheel.engine.logic.GraphicsComponent;
 import abdi.andreas.wheel.engine.logic.LogicComponent;
 import abdi.andreas.wheel.engine.objects.GameModel;
-import abdi.andreas.wheel.game.components.controls.ControlComponent;
+import abdi.andreas.wheel.game.components.controls.ControlComponentImpl;
+import abdi.andreas.wheel.game.components.graphics.GraphicsComponentFactory;
+import abdi.andreas.wheel.game.components.logic.LogicComponentFactory;
 
 public class GameInstance {
     private GameLoop gameLoop;
@@ -16,11 +18,12 @@ public class GameInstance {
         DisplayMetrics metrics = view.getResources().getDisplayMetrics();
         int screenY = metrics.heightPixels;
         int screenX = metrics.widthPixels;
-        GameModel model = ModelBuilder.buildModel(screenX, screenY);
-        GraphicsComponent graphicsComponent = ComponentBuilder.buildGraphicComponent(view, model);
-        LogicComponent logicComponent = ComponentBuilder.buildLogicComponent(model);
-        ControlComponent controlComponent = new ControlComponent(model, logicComponent);
-        controlComponent.attachControlsToView(view);
+        GameModel model = ModelFactory.buildModel(screenX, screenY);
+        GraphicsComponent graphicsComponent = GraphicsComponentFactory.buildGraphicsComponent(view, model);
+        LogicComponent logicComponent = LogicComponentFactory.buildLogicComponent(model);
+        ControlComponentImpl controlComponent = new ControlComponentImpl(model, view);
+        controlComponent.activate();
+
         gameLoop = new GameLoop(graphicsComponent, logicComponent);
     }
 

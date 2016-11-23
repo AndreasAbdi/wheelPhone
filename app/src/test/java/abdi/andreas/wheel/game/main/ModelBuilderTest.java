@@ -9,6 +9,6 @@ public class ModelBuilderTest {
 
     @Test
     public void shouldNotReturnNull() {
-        Assert.assertNotNull(ModelBuilder.buildModel(0,0));
+        Assert.assertNotNull(ModelFactory.buildModel(0,0));
     }
 }
