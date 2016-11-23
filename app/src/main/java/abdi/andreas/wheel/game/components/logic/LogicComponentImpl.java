@@ -1,6 +1,6 @@
 package abdi.andreas.wheel.game.components.logic;
 
-import abdi.andreas.wheel.engine.logic.LogicComponent;
+import abdi.andreas.wheel.engine.logic.components.LogicComponent;
 import abdi.andreas.wheel.engine.objects.GameModel;
 import abdi.andreas.wheel.engine.objects.GameObjectCollection;
 
@@ -10,12 +10,14 @@ public class LogicComponentImpl implements LogicComponent {
     private boolean running;
     private boolean initialized;
     private final CollisionLogicHandler collisionLogicHandler;
+    private final TerminationLogicHandler terminationLogicHandler;
 
     public LogicComponentImpl(GameModel gameModel) {
         this.gameModel = gameModel;
         running = true;
         initialized = false;
         this.collisionLogicHandler = new CollisionLogicHandler(gameModel, this);
+        this.terminationLogicHandler = new TerminationLogicHandler(gameModel, this);
     }
 
     @Override
@@ -38,8 +40,10 @@ public class LogicComponentImpl implements LogicComponent {
         if(running) {
             runInitializationSequence();
             runUpdateSequence(deltaTime, currentTime);
+            runTimedLogicSequence(deltaTime, currentTime);
             runCollisionHandlingSequence();
             runClearSequence();
+            runTerminationSequence();
         }
     }
 
@@ -61,13 +65,22 @@ public class LogicComponentImpl implements LogicComponent {
 
     private void runInitializationSequence() {
         if(!initialized) {
-            GameObjectBuilder.initializeComponents(gameModel);
+            GameObjectFactory.initializeComponents(gameModel);
             initialized = true;
         }
+    }
+
+    private void runTimedLogicSequence(long deltaTime, long currentTime) {
+        collisionLogicHandler.handleCollisionEvents();
     }
 
 
     private void runCollisionHandlingSequence() {
         collisionLogicHandler.handleCollisionEvents();
     }
+
+    private void runTerminationSequence() {
+        terminationLogicHandler.handleTerminationLogic();
+    }
+
 }

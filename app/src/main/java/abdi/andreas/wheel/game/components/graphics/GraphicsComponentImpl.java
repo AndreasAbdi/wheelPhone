@@ -7,7 +7,7 @@ import android.graphics.Paint;
 import com.google.common.base.Optional;
 
 import abdi.andreas.wheel.engine.graphics.GameView;
-import abdi.andreas.wheel.engine.logic.GraphicsComponent;
+import abdi.andreas.wheel.engine.logic.components.GraphicsComponent;
 import abdi.andreas.wheel.engine.objects.GameModel;
 import abdi.andreas.wheel.engine.objects.GameObjectCollection;
 

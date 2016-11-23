@@ -13,12 +13,12 @@ class CollisionLogicHandler {
     private GameModel gameModel;
     private LogicComponentImpl logicComponent;
 
-    public CollisionLogicHandler(GameModel gameModel, LogicComponentImpl logicComponent) {
+    CollisionLogicHandler(GameModel gameModel, LogicComponentImpl logicComponent) {
         this.gameModel = gameModel;
         this.logicComponent = logicComponent;
     }
 
-    public void handleCollisionEvents() {
+    void handleCollisionEvents() {
         GameObjectCollection<Torpedo> torpedos = gameModel.get(TORPEDO);
 
         WheelCharacter wheelCharacter = (WheelCharacter)gameModel.get(WHEEL).get(0);
@@ -27,14 +27,7 @@ class CollisionLogicHandler {
             torpedoHit = torpedoHit || wheelCharacter.collidesWith(torpedo);
         }
         if (torpedoHit) {
-            torpedos.add(GameObjectBuilder.generateTorpedo());
+            torpedos.add(GameObjectFactory.generateTorpedo());
         }
-
-        //TODO: pull this out to separate class.
-        if(wheelCharacter.getLives() == 0) {
-            logicComponent.reset();
-            logicComponent.stop();
-        }
-
     }
 }

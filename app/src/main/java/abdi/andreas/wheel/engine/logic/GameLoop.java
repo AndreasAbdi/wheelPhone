@@ -6,18 +6,15 @@ public class GameLoop implements Runnable {
 
     private Thread gameThread;
     private volatile boolean running = false;
-
-    private final GraphicsComponent graphicsComponent;
-    private final LogicComponent logicComponent;
+    private State currentState;
 
     long deltaTime = 10;
     long simulationTime = 0;
     long accumulator = 0;
     long currentTime = System.currentTimeMillis();
 
-    public GameLoop(GraphicsComponent graphicsComponent, LogicComponent logicComponent) {
-        this.graphicsComponent = graphicsComponent;
-        this.logicComponent = logicComponent;
+    public GameLoop(State state) {
+        this.currentState = state;
     }
 
     public void pause(){
@@ -59,7 +56,7 @@ public class GameLoop implements Runnable {
 
     private void runSimulationSteps() {
         while(accumulator >= deltaTime) {
-            logicComponent.update(deltaTime, simulationTime);
+            currentState = currentState.update(deltaTime, simulationTime);
             accumulator -= deltaTime;
             simulationTime += deltaTime;
         }
@@ -67,7 +64,7 @@ public class GameLoop implements Runnable {
     }
 
     private void drawToScreen() {
-        graphicsComponent.update(deltaTime, simulationTime);
+        currentState.render(deltaTime, simulationTime);
     }
 
     //TODO: switch to states to handle temporal alias.

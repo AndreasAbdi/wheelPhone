@@ -5,10 +5,10 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-public class ModelBuilderTest {
+public class ModelFactoryTest {
 
     @Test
     public void shouldNotReturnNull() {
-        Assert.assertNotNull(ModelBuilder.buildModel(0,0));
+        Assert.assertNotNull(ModelFactory.buildModel(0,0));
     }
 }

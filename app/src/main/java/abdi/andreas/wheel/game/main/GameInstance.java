@@ -4,10 +4,8 @@ import android.util.DisplayMetrics;
 
 import abdi.andreas.wheel.engine.graphics.GameView;
 import abdi.andreas.wheel.engine.logic.GameLoop;
-import abdi.andreas.wheel.engine.logic.GraphicsComponent;
-import abdi.andreas.wheel.engine.logic.LogicComponent;
 import abdi.andreas.wheel.engine.objects.GameModel;
-import abdi.andreas.wheel.game.components.controls.ControlComponent;
+import abdi.andreas.wheel.game.components.states.StateFactory;
 
 public class GameInstance {
     private GameLoop gameLoop;
@@ -16,12 +14,9 @@ public class GameInstance {
         DisplayMetrics metrics = view.getResources().getDisplayMetrics();
         int screenY = metrics.heightPixels;
         int screenX = metrics.widthPixels;
-        GameModel model = ModelBuilder.buildModel(screenX, screenY);
-        GraphicsComponent graphicsComponent = ComponentBuilder.buildGraphicComponent(view, model);
-        LogicComponent logicComponent = ComponentBuilder.buildLogicComponent(model);
-        ControlComponent controlComponent = new ControlComponent(model, logicComponent);
-        controlComponent.attachControlsToView(view);
-        gameLoop = new GameLoop(graphicsComponent, logicComponent);
+        GameModel model = ModelFactory.buildModel(screenX, screenY);
+
+        gameLoop = new GameLoop(StateFactory.buildGameState(view, model));
     }
 
     public void pause(){
@@ -31,4 +26,6 @@ public class GameInstance {
     public void resume() {
         gameLoop.resume();
     }
+
+
 }

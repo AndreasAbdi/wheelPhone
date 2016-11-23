@@ -15,7 +15,7 @@ import static abdi.andreas.wheel.game.objects.ObjectKeys.WHEEL;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
-final class GameObjectBuilder {
+final class GameObjectFactory {
     private static final Random RNG = new Random();
 
     static void initializeComponents(GameModel gameModel) {
@@ -47,6 +47,5 @@ final class GameObjectBuilder {
         float speedRY = -(float)(speed*sin(rotationInRadians));
 
         return new Torpedo(worldX, worldY, length, 10, rotation, speedRX, speedRY);
-
     }
 }
