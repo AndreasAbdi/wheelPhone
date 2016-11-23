@@ -3,9 +3,9 @@ package abdi.andreas.wheel.game.main;
 import android.util.DisplayMetrics;
 
 import abdi.andreas.wheel.engine.graphics.GameView;
-import abdi.andreas.wheel.engine.logic.GameLoop;
+import abdi.andreas.wheel.engine.logic.loop.GameLoop;
 import abdi.andreas.wheel.engine.objects.GameModel;
-import abdi.andreas.wheel.game.components.states.StateFactory;
+import abdi.andreas.wheel.game.states.StateFactory;
 
 public class GameInstance {
     private GameLoop gameLoop;
